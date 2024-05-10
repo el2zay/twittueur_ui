@@ -43,6 +43,25 @@ Future<List> fetchBookmarks(context, id) async {
   }
 }
 
+Future<List> fetchUserBookmarks(context) async {
+  var request = http.Request(
+      'GET', Uri.parse('https://twittueur.bassinecorp.fr/bookmarksByUser'));
+
+  request.headers.addAll({"Authorization": "Bearer ${box.read('token')}"});
+
+  http.StreamedResponse response = await request.send();
+
+  if (response.statusCode == 200) {
+    var responseString = await response.stream.bytesToString();
+    var data = jsonDecode(responseString)['data'] ?? [];
+    return data.map((e) => Posts.fromJson(e as Map<String, dynamic>)).toList();
+  } else {
+    showSnackBar(context, "Une erreur est survenue : ${response.reasonPhrase}",
+        Icons.error);
+    return [];
+  }
+}
+
 Future savePost(context, id) async {
   var request = http.MultipartRequest(
       'POST', Uri.parse('https://twittueur.bassinecorp.fr/bookmarks'));
@@ -167,9 +186,8 @@ Future<int> globalPostsLength() async {
   );
 
   final Map<String, dynamic> jsonDataGlobal = json.decode(responseGlobal.body);
-  final int lengthGlobal = jsonDataGlobal['message'];
-
-  return lengthGlobal;
+  final String lengthGlobal = jsonDataGlobal['message'];
+  return int.parse(lengthGlobal);
 }
 
 Future userPostsLength() async {

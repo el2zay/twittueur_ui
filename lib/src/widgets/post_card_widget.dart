@@ -1,6 +1,5 @@
 // ignore_for_file: use_build_context_synchronously
 
-
 import 'package:twittueur/main.dart';
 import 'package:twittueur/pages/post.dart';
 import 'package:twittueur/pages/reader.dart';
@@ -51,12 +50,14 @@ class Posts {
 }
 
 // Cette classe va nous permettre de créer un widget pour chaque post.
+// ignore: must_be_immutable
 class PostCard extends StatefulWidget {
   final String subject;
   final String postId;
   final String date;
   final String device;
   final String passphrase;
+  final bool showButtons;
 
   const PostCard({
     super.key,
@@ -65,6 +66,7 @@ class PostCard extends StatefulWidget {
     required this.date,
     required this.device,
     required this.passphrase,
+    required this.showButtons,
   });
 
   @override
@@ -211,77 +213,84 @@ class _PostCardState extends State<PostCard> {
                 ),
               ),
             ),
-            Row(
-              // Les éléments seront espacés entre eux
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                // Bouton pour les commentaire
-                IconButton(
-                  onPressed: () {
-                    // Lorsque l'utilisateur appuie sur le bouton
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => PostPage(
-                          // On affiche la page pour poster
-                          comment: widget
-                              .postId, // On ajoute le post id pour informer que c'est un commentaire
+            widget.showButtons != true
+                ? // Si l'on ne souhaite pas afficher les boutons
+                const SizedBox(
+                    // On affiche un espace blanc
+                    height: 15,
+                  )
+                : Row(
+                    // Les éléments seront espacés entre eux
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      // Bouton pour les commentaire
+                      IconButton(
+                        onPressed: () {
+                          // Lorsque l'utilisateur appuie sur le bouton
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => PostPage(
+                                // On affiche la page pour poster
+                                comment: widget
+                                    .postId, // On ajoute le post id pour informer que c'est un commentaire
+                              ),
+                              fullscreenDialog: true, // En plein écran
+                            ),
+                          );
+                        },
+                        icon: Image.asset(
+                          'assets/comments.png', // L'icone
+                          color: Colors.blueGrey[400], // Sa couleur
+                          // Sa taille
+                          width: 18,
+                          height: 18,
                         ),
-                        fullscreenDialog: true, // En plein écran
                       ),
-                    );
-                  },
-                  icon: Image.asset(
-                    'assets/comments.png', // L'icone
-                    color: Colors.blueGrey[400], // Sa couleur
-                    // Sa taille
-                    width: 18,
-                    height: 18,
+                      IconButton(
+                        // Bouton pour liker le post
+                        onPressed: () async {
+                          HapticFeedback.selectionClick(); // Effet haptique
+                          await likesPost(
+                              context, widget.postId); // On like le post
+                          checkStatus(context); // On vérifie le statut
+                        },
+                        icon: isLiked // Si le post est liké
+                            ? const Icon(
+                                // On affiche l'icone en rose
+                                Icons.favorite,
+                                color: Color.fromARGB(255, 249, 24, 128),
+                                size: 18,
+                              )
+                            : const Icon(
+                                // Sinon on l'affiche vide
+                                Icons.favorite_outline,
+                                size: 18,
+                              ),
+                      ),
+                      IconButton(
+                        onPressed: () async {
+                          // Bouton pour bookmark le post
+                          HapticFeedback.selectionClick(); // Effet haptique
+                          await savePost(
+                              context, widget.postId); // On bookmark le post
+                          checkStatus(context); // On vérifie le statut
+                        },
+                        icon: isBookmarked // Si le post est bookmarké
+                            ? const Icon(
+                                // On affiche l'icone en bleu
+                                Icons.bookmark,
+                                color: Colors.blue,
+                                size: 18,
+                              )
+                            : const Icon(
+                                // Sinon on l'affiche vide
+                                Icons.bookmark_add_outlined,
+                                size: 18,
+                              ),
+                      ),
+                    ],
                   ),
-                ),
-                IconButton(
-                  // Bouton pour liker le post
-                  onPressed: () async {
-                    HapticFeedback.selectionClick(); // Effet haptique
-                    await likesPost(context, widget.postId); // On like le post
-                    checkStatus(context); // On vérifie le statut
-                  },
-                  icon: isLiked // Si le post est liké
-                      ? const Icon(
-                          // On affiche l'icone en rose
-                          Icons.favorite,
-                          color: Color.fromARGB(255, 249, 24, 128),
-                          size: 18,
-                        )
-                      : const Icon(
-                          // Sinon on l'affiche vide
-                          Icons.favorite_outline,
-                          size: 18,
-                        ),
-                ),
-                IconButton(
-                  onPressed: () async {
-                    // Bouton pour bookmark le post
-                    HapticFeedback.selectionClick(); // Effet haptique
-                    await savePost(
-                        context, widget.postId); // On bookmark le post
-                    checkStatus(context); // On vérifie le statut
-                  },
-                  icon: isBookmarked // Si le post est bookmarké
-                      ? const Icon(
-                          // On affiche l'icone en bleu
-                          Icons.bookmark,
-                          color: Colors.blue,
-                          size: 18,
-                        )
-                      : const Icon(
-                          // Sinon on l'affiche vide
-                          Icons.bookmark_add_outlined,
-                          size: 18,
-                        ),
-                ),
-              ],
-            ),
           ],
         ),
       ),

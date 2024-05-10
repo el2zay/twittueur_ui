@@ -30,6 +30,8 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   Future<List<Posts>>? _postsFuture;
   bool _isLoading = false;
   var _isCopied = false;
+  var postsLength = 0;
+  var _isFinished = false;
 
   bool? activeConnection;
   Future checkUserConnection() async {
@@ -95,6 +97,14 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         _isLoading = false; // On arrête de charger
 
         _postIds = newPostIds; // On met à jour les ids des posts
+      });
+
+      setState(() {
+        if (_posts.length == postsLength) {
+          // Si on a chargé tous les posts
+          _isFinished = true; // On met à jour la variable
+        }
+        postsLength = _posts.length;
       });
     }
   }
@@ -409,40 +419,40 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                   itemBuilder: (context, index) {
                     if (index == snapshot.data!.length - 1) {
                       // Si on est à la fin de la liste
-                      return const Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Center(
-                          child: CupertinoActivityIndicator(
-                            // On affiche un chargement
-                            radius: 10,
-                          ),
-                        ),
-                      );
+                      return _isFinished
+                          ? const Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Column(
+                                children: [
+                                  Text(
+                                    "Vous avez atteint la fin de la liste.",
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                  SizedBox(height: 15),
+                                  Text(
+                                    "Si vous le souhaitez vous pouvez poster en cliquant sur le bouton bleu en bas de l'écran",
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  )
+                                ],
+                              ),
+                            )
+                          : const Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Center(
+                                child: CupertinoActivityIndicator(
+                                  // On affiche un chargement
+                                  radius: 10,
+                                ),
+                              ),
+                            );
                     }
-                    // TODO: Rajouter ce message à la fin
-                    // return const Padding(
-                    //   padding: EdgeInsets.all(8.0),
-                    //   child: Column(
-                    //     children: [
-                    //       Text(
-                    //         "Tu as atteint la fin de la liste.",
-                    //         style: TextStyle(
-                    //           fontSize: 20,
-                    //           fontWeight: FontWeight.w700,
-                    //         ),
-                    //       ),
-                    //       SizedBox(height: 15),
-                    //       Text(
-                    //         "Si vous le souhaitez vous pouvez poster en cliquant sur le bouton bleu en bas de l'écran",
-                    //         style: TextStyle(
-                    //           fontSize: 15,
-                    //           fontWeight: FontWeight.w500,
-                    //         ),
-                    //         textAlign: TextAlign.center,
-                    //       )
-                    //     ],
-                    //   ),
-                    // );
                     return PostCard(
                       subject: snapshot.data![index].subject!, // Le sujet
                       postId: snapshot.data![index].id!, // L'id du post
@@ -451,6 +461,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                       date: snapshot.data![index].date!, // La date du post
                       device: snapshot.data![index]
                           .device!, // L'appareil (iPhone ou Android) utilisé pour poster
+                      showButtons: true,
                     );
                   },
                 ),

@@ -128,7 +128,7 @@ class _ReaderPageState extends State<ReaderPage> {
                         );
                       }
                       return Column(
-                        children: snapshot.data!.map((post) {
+                        children: snapshot.data!.map((post) { 
                           return PostCard(
                             subject: post.subject!, // Le sujet
                             postId: post.id!, // L'id du post
@@ -137,6 +137,7 @@ class _ReaderPageState extends State<ReaderPage> {
                             date: post.date!, // La date du post
                             device: post
                                 .device!, // L'appareil (iPhone ou Android) utilisé pour poster
+                            showButtons: true,
                           );
                         }).toList(),
                       );
