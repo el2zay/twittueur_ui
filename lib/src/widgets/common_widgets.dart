@@ -2,28 +2,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 
-Widget loader({color}) {
+Widget loader({size = 20.0}) {
   return defaultTargetPlatform == TargetPlatform.iOS
       ? Center(
           child: CupertinoActivityIndicator(
-            radius: 20,
-            color: color,
+            radius: size,
           ),
         )
       : Center(
           child: CircularProgressIndicator(
-            strokeWidth: 2,
-            color: color,
+            // Taille
+            strokeWidth: size/10.0,
           ),
-        );
-}
-
-Widget arrowBack() {
-  return defaultTargetPlatform == TargetPlatform.iOS
-      ? const Icon(
-          Icons.arrow_back_ios,
-        )
-      : const Icon(
-          Icons.arrow_back,
         );
 }

@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
+
 import 'package:twittueur/main.dart';
 import 'package:twittueur/pages/post.dart';
 import 'package:twittueur/pages/reader.dart';
@@ -160,6 +161,7 @@ class _PostCardState extends State<PostCard> {
                 subject: widget.subject,
                 passphrase: widget.passphrase,
                 infos: "${widget.date} • Twittueur for ${widget.device}",
+                id: widget.postId,
               ),
             ),
           );
@@ -167,6 +169,7 @@ class _PostCardState extends State<PostCard> {
         child: Column(
           children: [
             ListTile(
+              isThreeLine: true,
               // On affiche la photo de profil de l'utilisateur
               // À gauche du post
               leading: CircleAvatar(
