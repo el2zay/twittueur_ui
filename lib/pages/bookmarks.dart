@@ -88,19 +88,23 @@ class _BookmarksPageState extends State<BookmarksPage> {
                 ),
               );
             }
-            return RawScrollbar( // Afficher une barre de défillement
-              thumbColor: Colors.grey[600], 
+            return RawScrollbar(
+              // Afficher une barre de défillement
+              thumbColor: Colors.grey[600],
               radius: const Radius.circular(20),
               thickness: 5, // Epaisseur de la barre
               interactive: true, // Cliquable
               timeToFade: const Duration(seconds: 3), // Durée de la barre
-              fadeDuration: const Duration(milliseconds: 300), // Durée de la disparition
-              child: ListView.builder( // Liste des posts
+              fadeDuration:
+                  const Duration(milliseconds: 300), // Durée de la disparition
+              child: ListView.builder(
+                // Liste des posts
                 shrinkWrap: false,
                 itemCount: snapshot.data!.length, // Nombre de posts
                 itemBuilder: (context, index) {
                   return PostCard(
                     subject: snapshot.data![index].subject!, // Le sujet
+                    image: snapshot.data![index].image!, // L'image
                     postId: snapshot.data![index].id!, // L'id du post
                     passphrase: snapshot.data![index]
                         .passphrase!, // La passphrase associé au post
@@ -112,8 +116,9 @@ class _BookmarksPageState extends State<BookmarksPage> {
                 },
               ),
             );
-          } else { // Si on est en attente
-            return loader();  // On affiche un chargement
+          } else {
+            // Si on est en attente
+            return loader(); // On affiche un chargement
           }
         },
       ),

@@ -5,6 +5,7 @@ import 'package:twittueur/src/widgets/post_card_widget.dart';
 
 class ReaderPage extends StatefulWidget {
   final String subject;
+  final String image;
   final String passphrase;
   final String infos;
   final String id;
@@ -12,6 +13,7 @@ class ReaderPage extends StatefulWidget {
   const ReaderPage({
     super.key,
     required this.subject,
+    required this.image,
     required this.passphrase,
     required this.infos,
     required this.id,
@@ -101,6 +103,14 @@ class _ReaderPageState extends State<ReaderPage> {
                     ),
                   ),
                 ),
+                const SizedBox(height: 25),
+                widget.image.isEmpty
+                    ? const SizedBox()
+                    : Image.network(
+                        widget.image, // Afficher l'image
+                        fit: BoxFit
+                            .cover, // Adapter l'image à la taille de l'écran
+                      ),
                 const SizedBox(height: 30),
                 Text(widget.infos,
                     style: const TextStyle(
@@ -128,9 +138,10 @@ class _ReaderPageState extends State<ReaderPage> {
                         );
                       }
                       return Column(
-                        children: snapshot.data!.map((post) { 
+                        children: snapshot.data!.map((post) {
                           return PostCard(
                             subject: post.subject!, // Le sujet
+                            image: post.image!, // L'image
                             postId: post.id!, // L'id du post
                             passphrase: post
                                 .passphrase!, // La passphrase associé au post

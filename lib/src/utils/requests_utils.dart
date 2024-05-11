@@ -170,9 +170,13 @@ Future<List<Posts>> fetchPosts(context, postIds, showComments) async {
     // S'il n'y a pas d'erreur
     final List<dynamic> jsonData = json.decode(utf8
         .decode(response.bodyBytes)); // On décode le body de la réponse en JSON
-    return jsonData
-        .map((e) => Posts.fromJson(e as Map<String, dynamic>))
-        .toList(); // On retourne une liste de Posts
+
+    return jsonData.map((e) {
+      Map<String, dynamic> data = e as Map<String, dynamic>;
+      data['image'] = // On remplace db par https://twittueur.bassinecorp.fr
+          data['image'].replaceAll('db', 'https://twittueur.bassinecorp.fr');
+      return Posts.fromJson(data);
+    }).toList(); // On retourne une liste de Posts
   } else {
     return []; // Sinon on retourne une liste vide
   }
@@ -188,27 +192,6 @@ Future<int> globalPostsLength() async {
   final Map<String, dynamic> jsonDataGlobal = json.decode(responseGlobal.body);
   final String lengthGlobal = jsonDataGlobal['message'];
   return int.parse(lengthGlobal);
-}
-
-Future userPostsLength() async {
-  var request = http.MultipartRequest(
-    'GET',
-    Uri.parse('https://twittueur.bassinecorp.fr/userPostsLength'),
-  );
-
-  request.fields.addAll({'passphrase': getPassphrase()});
-
-  http.StreamedResponse response = await request.send();
-
-  if (response.statusCode == 200) {
-    var responseString = await response.stream.bytesToString();
-    var data = jsonDecode(responseString)['message'];
-    return data;
-  } else {
-    debugPrint(response.reasonPhrase);
-  }
-
-  return 0;
 }
 
 // User
@@ -291,7 +274,7 @@ Future login(context, username, passphrase) async {
   http.StreamedResponse response = await request.send();
   String responseBody = await response.stream.bytesToString();
   Map<String, dynamic> jsonData = jsonDecode(responseBody);
-  if (response.statusCode == 200) {
+  if (response.statusCode == 202) {
     final String token = jsonData['message'];
     box.write('token', token); // Ecrire le token dans le cache
     Navigator.pushAndRemoveUntil(

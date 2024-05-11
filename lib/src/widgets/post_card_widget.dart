@@ -11,6 +11,7 @@ import 'package:expandable_text/expandable_text.dart';
 // Cette classe va nous permettre de récupérer les informations des posts.
 class Posts {
   String? subject;
+  String? image;
   String? id;
   String? passphrase;
   String? date;
@@ -19,6 +20,7 @@ class Posts {
 
   Posts({
     this.subject,
+    this.image,
     this.id,
     this.passphrase,
     this.date,
@@ -30,6 +32,7 @@ class Posts {
   // Et on associe chaque clé à une variable défini dans la class.
   Posts.fromJson(Map<String, dynamic> json)
       : subject = json['body'],
+        image = json['image'],
         id = json['id'],
         passphrase = json['passphrase'],
         date = json['date'],
@@ -38,8 +41,8 @@ class Posts {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    // data['passphrase'] = passphrase;
     data['body'] = subject;
+    data['image'] = image;
     data['id'] = id;
     data['isComment'] = isComment ?? false;
     data['date'] = date;
@@ -53,6 +56,7 @@ class Posts {
 // ignore: must_be_immutable
 class PostCard extends StatefulWidget {
   final String subject;
+  final String image;
   final String postId;
   final String date;
   final String device;
@@ -62,6 +66,7 @@ class PostCard extends StatefulWidget {
   const PostCard({
     super.key,
     required this.subject,
+    required this.image,
     required this.postId,
     required this.date,
     required this.device,
@@ -161,6 +166,7 @@ class _PostCardState extends State<PostCard> {
               builder: (context) => ReaderPage(
                 // On redirige vers la page ReaderPage
                 subject: widget.subject,
+                image: widget.image,
                 passphrase: widget.passphrase,
                 infos: "${widget.date} • Twittueur for ${widget.device}",
                 id: widget.postId,
@@ -213,6 +219,22 @@ class _PostCardState extends State<PostCard> {
                 ),
               ),
             ),
+            // Afficher une image en dessous
+            widget.image.isNotEmpty
+                ? Align(
+                    alignment: Alignment.centerLeft,
+                    child: Container(
+                      margin: const EdgeInsets.only(left: 25),
+                    constraints: const BoxConstraints(
+                      maxHeight: 500, // Hauteur maximale de 500
+                      maxWidth: 500, // Largeur maximale de 500
+                    ),
+                    child: Image.network(
+                      widget.image,
+                      fit: BoxFit.cover,
+                    ),
+                  ))
+                : const SizedBox(),
             widget.showButtons != true
                 ? // Si l'on ne souhaite pas afficher les boutons
                 const SizedBox(

@@ -7,8 +7,11 @@ Ce repo contient le code source de l'application mobile Twittueur.
 ## Installation
 
 <b>Il est conseillé de télécharger un des fichier APK (android) ou IPA (iOS) dans la section [releases](https://github.com/el2zay/twittueur_ui/releases) sur votre téléphone.</b>
+
+Vous y trouverez aussi les instructions d'installation.
 ___
 
+## Debug
 1. Clonez le repo
 
 `git clone https://github.com/el2zay/twittueur_ui.git` 
@@ -39,6 +42,7 @@ ___
 - [x] Liker un post (aussi en double-tap)
 - [x] Enregistrer un post (aussi en long-tap)
 - [x] Commenter un post
+- [x] Publier une image
 - [x] Avoir une photo de profil
 - [x] Se connecter à l'aide d'une passphrase
 - [x] Compatible iOS et Android

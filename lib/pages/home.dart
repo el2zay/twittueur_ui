@@ -251,30 +251,6 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                 }),
             const SizedBox(height: 10),
             ListTile(
-                title: const Row(
-                  children: [
-                    Icon(Icons.edit_outlined, size: 25),
-                    Text(
-                      '\tVos posts',
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ],
-                ),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    // TODO afficher  les posts de l'utilisateur
-                    MaterialPageRoute(
-                      builder: (context) => const BookmarksPage(),
-                    ),
-                  );
-                }),
-            const SizedBox(height: 10),
-            ListTile(
               title: const Row(
                 children: [
                   Icon(Icons.exit_to_app_rounded, size: 25),
@@ -455,6 +431,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                     }
                     return PostCard(
                       subject: snapshot.data![index].subject!, // Le sujet
+                      image: snapshot.data![index].image!, // L'image
                       postId: snapshot.data![index].id!, // L'id du post
                       passphrase: snapshot.data![index]
                           .passphrase!, // La passphrase associé au post
