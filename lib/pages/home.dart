@@ -247,6 +247,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                   ],
                 ),
                 onTap: () {
+                  Navigator.pop(context); // Fermer le menu latéral
                   Navigator.push(
                     context,
                     MaterialPageRoute(

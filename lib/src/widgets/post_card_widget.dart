@@ -232,9 +232,13 @@ class _PostCardState extends State<PostCard> {
                         maxHeight: 500, // Hauteur maximale de 500
                         maxWidth: 500, // Largeur maximale de 500
                       ),
-                      child: Image.network(
-                        widget.image,
-                        fit: BoxFit.cover,
+                      child: ClipRRect(
+                        // Arrondir les bords de l'image
+                        borderRadius: BorderRadius.circular(5),
+                        child: Image.network(
+                          widget.image,
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ))
                 : const SizedBox(),

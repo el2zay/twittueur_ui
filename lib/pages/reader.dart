@@ -107,12 +107,18 @@ class _ReaderPageState extends State<ReaderPage> {
                 const SizedBox(height: 25),
                 widget.image.isEmpty
                     ? const SizedBox()
-                    : Image.network(
-                        widget.image, // Afficher l'image
-                        fit: BoxFit
-                            .cover, // Adapter l'image à la taille de l'écran
+                    : ClipRRect(
+                        // Arrondir les bords de l'image
+                        borderRadius: BorderRadius.circular(5),
+                        child: Image.network(
+                          widget.image, // Afficher l'image
+                          fit: BoxFit
+                              .cover, // Adapter l'image à la taille de l'écran
+                        ),
                       ),
-                const SizedBox(height: 30),
+                widget.image.isNotEmpty
+                    ? const SizedBox(height: 30)
+                    : const SizedBox(),
                 Text(widget.infos,
                     style: const TextStyle(
                         color: Colors.grey)), // Afficher la date
