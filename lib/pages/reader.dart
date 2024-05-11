@@ -52,6 +52,7 @@ class _ReaderPageState extends State<ReaderPage> {
       appBar: AppBar(
         title: const Text('Post',
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+        centerTitle: true,
       ),
       body: SingleChildScrollView(
         child: ConstrainedBox(

@@ -23,6 +23,7 @@ class _LoginPageState extends State<LoginPage> {
           width: 30,
           height: 30,
         ),
+        centerTitle: true,
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {

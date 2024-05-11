@@ -195,11 +195,14 @@ class _PostCardState extends State<PostCard> {
                     ),
                   ),
                   const SizedBox(width: 5),
-                  Text(
-                    username, // Le nom d'utilisateur
-                    style: TextStyle(
-                      color: Colors.grey[700],
-                      fontSize: 14,
+                  Flexible(
+                    child: Text(
+                      username, // Le nom d'utilisateur
+                      style: TextStyle(
+                        color: Colors.grey[700],
+                        fontSize: 14,
+                      ),
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                 ],
@@ -225,15 +228,15 @@ class _PostCardState extends State<PostCard> {
                     alignment: Alignment.centerLeft,
                     child: Container(
                       margin: const EdgeInsets.only(left: 25),
-                    constraints: const BoxConstraints(
-                      maxHeight: 500, // Hauteur maximale de 500
-                      maxWidth: 500, // Largeur maximale de 500
-                    ),
-                    child: Image.network(
-                      widget.image,
-                      fit: BoxFit.cover,
-                    ),
-                  ))
+                      constraints: const BoxConstraints(
+                        maxHeight: 500, // Hauteur maximale de 500
+                        maxWidth: 500, // Largeur maximale de 500
+                      ),
+                      child: Image.network(
+                        widget.image,
+                        fit: BoxFit.cover,
+                      ),
+                    ))
                 : const SizedBox(),
             widget.showButtons != true
                 ? // Si l'on ne souhaite pas afficher les boutons

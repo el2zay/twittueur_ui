@@ -40,6 +40,7 @@ class _RegisterPageState extends State<RegisterPage> {
           width: 30,
           height: 30,
         ),
+        centerTitle: true,
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -64,7 +65,8 @@ class _RegisterPageState extends State<RegisterPage> {
             user = {
               "username": _usernameController.value.text,
               "name": _firstNameController.value.text,
-              "avatar": "https://twittueur.bassinecorp.fr/avatars/${_usernameController.value.text}.png"
+              "avatar":
+                  "https://twittueur.bassinecorp.fr/avatars/${_usernameController.value.text}.png"
             };
           });
         },
@@ -143,6 +145,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                     const SizedBox(height: 20),
                     const Text("Choisir une photo de profil"),
+                    const Text("Veuillez choisir une image carrée.")
                   ],
                 ),
               ),

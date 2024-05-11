@@ -49,6 +49,10 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       });
       rethrow;
     }
+    if (user['avatar'] == null) {
+      // ignore: use_build_context_synchronously
+      Phoenix.rebirth(context);
+    }
   }
 
   @override
@@ -65,6 +69,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       // On récupère les nouveaux posts
       _posts = initialPosts;
     });
+    // Si user['avatar'] est null on reload
   }
 
   @override
@@ -129,6 +134,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
           width: 30,
           height: 30,
         ),
+        centerTitle: true,
         backgroundColor: Colors.black, // Couleur de la barre
         leading: Builder(
           // Icone à gauche de la barre
