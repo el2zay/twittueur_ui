@@ -1,6 +1,6 @@
 name: twittueur
 description: "Un projet de NSI pour créer un clone de Twitter en utilisant Flutter"
-version: 0.1.0
+version: 1.0.0
 
 environment:
   sdk: '>=3.3.0 <4.0.0'
